@@ -86,6 +86,52 @@ test("place small ship (3) on board and hits attack 3x", () => {
   gameboard.receiveAttack(2, 4, function updateShip(value) {
     console.log(value);
     ships.find((ship) => ship.name == value).hit();
-    expect(boat.isSunk).toBeTruthy();
+    //expect(boat.isSunk).toBeTruthy();
+    expect(gameboard.checkShipsSunk().toBeTruty());
   });
+});
+
+test("place cruiser (3) and place boat (2)", () => {
+  let gameboard = createGameboard(5);
+  let ships = [];
+  let boat = createShip("boat", 3);
+  let cruiser = createShip("cruiser", 2);
+  cruiser.changeOrientation();
+  ships.push(boat);
+  ships.push(cruiser);
+  gameboard.placeShip(boat, 2, 2);
+  gameboard.placeShip(cruiser, 0, 0);
+  expect((gameboard.shipArray = ["boat", "cruiser"]));
+});
+
+test("place cruiser (3) and place boat (2), but misplace yacht (4)", () => {
+  let gameboard = createGameboard(5);
+  let ships = [];
+  let boat = createShip("boat", 3);
+  let cruiser = createShip("cruiser", 2);
+  let yacht = createShip("yacht", 4);
+  cruiser.changeOrientation();
+  ships.push(boat);
+  ships.push(cruiser);
+  ships.push(yacht);
+  gameboard.placeShip(boat, 2, 2);
+  gameboard.placeShip(cruiser, 0, 0);
+  gameboard.placeShip(yacht, 0, 0);
+  expect((gameboard.shipArray = ["boat", "cruiser"]));
+});
+
+test("place cruiser (3) and place boat (2), but correctly place yacht (4)", () => {
+  let gameboard = createGameboard(5);
+  let ships = [];
+  let boat = createShip("boat", 3);
+  let cruiser = createShip("cruiser", 2);
+  let yacht = createShip("yacht", 4);
+  cruiser.changeOrientation();
+  ships.push(boat);
+  ships.push(cruiser);
+  ships.push(yacht);
+  gameboard.placeShip(boat, 2, 2);
+  gameboard.placeShip(cruiser, 0, 0);
+  gameboard.placeShip(yacht, 0, 1);
+  expect((gameboard.shipArray = ["boat", "cruiser", "yacht"]));
 });

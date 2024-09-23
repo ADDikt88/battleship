@@ -2,6 +2,7 @@ import { createShip } from "./ships.js";
 
 function createGameboard(size) {
   let coordinates = [];
+  let shipArray = [];
 
   coordinates = initializeBoard(coordinates, size);
   console.log(coordinates);
@@ -30,7 +31,8 @@ function createGameboard(size) {
         this.coordinates[startRow][startCol + i] = ship.name;
       }
     }
-
+    shipArray.push(ship);
+    console.log(shipArray);
     console.log(coordinates);
     return true;
   }
@@ -55,6 +57,9 @@ function createGameboard(size) {
     if (this.coordinates[targetRow][targetCol] !== "empty") {
       let shipName = this.coordinates[targetRow][targetCol];
       //invoke a callback;
+      if (typeof callback !== "function") {
+        throw new Error("Callback function is required");
+      }
       callback(shipName);
       this.coordinates[targetRow][targetCol] = "hit";
       console.log(coordinates);
@@ -62,7 +67,24 @@ function createGameboard(size) {
     }
     return false;
   }
-  return { size, coordinates, placeShip, receiveAttack };
+
+  function checkShipsSunk() {
+    if (shipArray == null || shipArray.length == 0) return false;
+
+    for (let i = 0; i < this.shipArray.length; i++) {
+      if (!shipArray[i].isSunk()) return false;
+    }
+    console.log(shipArray);
+    return true;
+  }
+  return {
+    size,
+    coordinates,
+    shipArray,
+    placeShip,
+    receiveAttack,
+    checkShipsSunk,
+  };
 }
 
 function initializeBoard(coordinates, size) {
