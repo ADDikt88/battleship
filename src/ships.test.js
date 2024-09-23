@@ -22,3 +22,9 @@ test("battleship sunk", () => {
   battleship.hit();
   expect(battleship.isSunk).toBeTruthy();
 });
+
+test("battleship switch orientation", () => {
+  let battleship = createShip(5);
+  battleship.changeOrientation();
+  expect(battleship.orientation).toBe("vertical");
+});
