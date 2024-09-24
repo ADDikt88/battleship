@@ -7,6 +7,8 @@ function startGame() {
   initializeShips(Player1);
 
   const Player2 = createPlayer("computer");
+  initializeShips(Player2);
+  return { Player1, Player2 };
 }
 
 function initializeShips(player) {

@@ -1,5 +1,17 @@
+import { startGame } from "./gameLogic.js";
 function mainpage() {
   renderPage();
+  const newGame = startGame();
+
+  let p1gameboard = newGame.Player1.gameboard;
+  let p2gameboard = newGame.Player2.gameboard;
+  console.log("Player1 ");
+  console.log(p1gameboard.coordinates);
+  console.log("Player2 ");
+  console.log(p2gameboard.coordinates);
+
+  drawGameboardState(p1gameboard, 0);
+  drawGameboardState(p2gameboard, 1);
 }
 
 function renderPage() {
@@ -33,6 +45,17 @@ function drawGrid() {
   }
 
   return gameboardGrid;
+}
+
+function drawGameboardState(gameboard, id) {
+  const gridSize = 8;
+  let blocks = document.querySelectorAll(".block");
+  for (let row = 0; row < gridSize; row++) {
+    for (let col = 0; col < gridSize; col++) {
+      let index = gridSize * gridSize * id + (row * gridSize + col);
+      blocks[index].textContent = gameboard.coordinates[row][col].charAt(0);
+    }
+  }
 }
 
 export { mainpage };
