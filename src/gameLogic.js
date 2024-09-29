@@ -16,6 +16,7 @@ function initializeShips(player) {
   let ark = createShip("a", 2);
   let boat = createShip("b", 3);
   let cruiser = createShip("c", 4);
+  cruiser.changeOrientation();
   ships.push(ark);
   ships.push(boat);
   ships.push(cruiser);

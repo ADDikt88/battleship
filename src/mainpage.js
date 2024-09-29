@@ -18,15 +18,15 @@ function renderPage() {
   const player1Container = document.querySelector(
     ".player-1-gameboard-container"
   );
-  player1Container.appendChild(drawGrid());
+  player1Container.appendChild(drawGrid("p1"));
 
   const player2Container = document.querySelector(
     ".player-2-gameboard-container"
   );
-  player2Container.appendChild(drawGrid());
+  player2Container.appendChild(drawGrid("p2"));
 }
 
-function drawGrid() {
+function drawGrid(player) {
   const gameboardGrid = document.createElement("div");
   gameboardGrid.setAttribute("class", "grid");
 
@@ -39,6 +39,8 @@ function drawGrid() {
     for (let col = 0; col < gridSize; col++) {
       let divBlock = document.createElement("div");
       divBlock.setAttribute("class", "block");
+      let id = `${player}-${row}_${col}`;
+      divBlock.setAttribute("id", id);
       divRow[row].appendChild(divBlock);
     }
     gameboardGrid.appendChild(divRow[row]);
@@ -53,22 +55,48 @@ function drawGameboardState(gameboard, id) {
   for (let row = 0; row < gridSize; row++) {
     for (let col = 0; col < gridSize; col++) {
       let index = gridSize * gridSize * id + (row * gridSize + col);
-      blocks[index].textContent = gameboard.coordinates[row][col];
-      fillColorState(blocks[index]);
+      //blocks[index].textContent = gameboard.coordinates[row][col];
+      //fillColorState(blocks[index], gameboard.coordinates[row][col]);
+
+      //add a img listener
+      blockListener(blocks[index], row, col, gameboard.coordinates[row][col]);
     }
   }
 }
 
-function fillColorState(block) {
+function fillColorState(block, state) {
   let colorStates = {
-    a: "red",
+    a: "purple",
     b: "yellow",
     c: "green",
-    d: "purple",
+    d: "orange",
     e: "blue",
   };
-  block.style.backgroundColor = colorStates[block.textContent.charAt(0)];
-  block.style.color = colorStates[block.textContent.charAt(0)];
+  block.style.backgroundColor = colorStates[state.charAt(0)];
+
+  if (state.length == 5)
+    if (state.charAt(2) == "h") {
+      block.textContent = "X";
+      block.style.color = "red";
+    }
 }
 
+function blockListener(block, row, col, state) {
+  let button = document.createElement("button");
+  button.style.width = "100%";
+  button.style.height = "100%";
+  button.style.border = "none";
+
+  fillColorState(button, state);
+
+  button.addEventListener("click", () => {
+    console.log(`(${row},${col}) clicked`);
+    button.textContent = "X";
+    button.style.color = "red";
+    button.style.fontSize = "2rem";
+    button.disabled = "true";
+  });
+
+  block.appendChild(button);
+}
 export { mainpage };
