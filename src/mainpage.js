@@ -5,13 +5,17 @@ function mainpage() {
 
   let p1gameboard = newGame.Player1.gameboard;
   let p2gameboard = newGame.Player2.gameboard;
+
+  let p1ships = newGame.Player1.ships;
+  let p2ships = newGame.Player2.ships;
+
   console.log("Player1 ");
   console.log(p1gameboard.coordinates);
   console.log("Player2 ");
   console.log(p2gameboard.coordinates);
 
-  drawGameboardState(p1gameboard, 0);
-  drawGameboardState(p2gameboard, 1);
+  drawGameboardState(p1gameboard, 0, p1ships);
+  drawGameboardState(p2gameboard, 1, p2ships);
 }
 
 function renderPage() {
@@ -49,7 +53,7 @@ function drawGrid(player) {
   return gameboardGrid;
 }
 
-function drawGameboardState(gameboard, id) {
+function drawGameboardState(gameboard, id, ships) {
   const gridSize = 8;
   let blocks = document.querySelectorAll(".block");
   for (let row = 0; row < gridSize; row++) {
@@ -59,7 +63,15 @@ function drawGameboardState(gameboard, id) {
       //fillColorState(blocks[index], gameboard.coordinates[row][col]);
 
       //add a img listener
-      blockListener(blocks[index], row, col, gameboard.coordinates[row][col]);
+      blockListener(
+        blocks[index],
+        row,
+        col,
+        gameboard.coordinates[row][col],
+        gameboard,
+        id,
+        ships
+      );
     }
   }
 }
@@ -73,15 +85,9 @@ function fillColorState(block, state) {
     e: "blue",
   };
   block.style.backgroundColor = colorStates[state.charAt(0)];
-
-  if (state.length == 5)
-    if (state.charAt(2) == "h") {
-      block.textContent = "X";
-      block.style.color = "red";
-    }
 }
 
-function blockListener(block, row, col, state) {
+function blockListener(block, row, col, state, gameboard, id, ships) {
   let button = document.createElement("button");
   button.style.width = "100%";
   button.style.height = "100%";
@@ -91,12 +97,32 @@ function blockListener(block, row, col, state) {
 
   button.addEventListener("click", () => {
     console.log(`(${row},${col}) clicked`);
-    button.textContent = "X";
-    button.style.color = "red";
-    button.style.fontSize = "2rem";
-    button.disabled = "true";
+
+    gameboard.receiveAttack(row, col, function updateShip(value) {
+      if (value == "miss") {
+        updateButtonStatus(button, "miss");
+      } else {
+        console.log("SHIP NAME: " + value);
+        ships.find((ship) => ship.name == value).hit();
+        updateButtonStatus(button, "hit");
+      }
+    });
   });
 
   block.appendChild(button);
+}
+
+function updateButtonStatus(button, state) {
+  button.style.fontSize = "2rem";
+
+  if (state == "hit") {
+    button.textContent = "X";
+    button.style.color = "red";
+  } else if (state == "miss") {
+    button.textContent = "X";
+    button.style.color = "gray";
+  }
+
+  button.disabled = "true";
 }
 export { mainpage };

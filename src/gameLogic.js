@@ -4,10 +4,10 @@ import { createGameboard } from "./gameboard.js";
 
 function startGame() {
   const Player1 = createPlayer("human");
-  initializeShips(Player1);
+  Player1.ships = initializeShips(Player1);
 
   const Player2 = createPlayer("computer");
-  initializeShips(Player2);
+  Player2.ships = initializeShips(Player2);
   return { Player1, Player2 };
 }
 
@@ -25,6 +25,8 @@ function initializeShips(player) {
     //need to update ship logic
     player.gameboard.placeShip(ships[i], i * 2, i * 2);
   }
+
+  return ships;
 }
 
 export { startGame };

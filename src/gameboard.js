@@ -48,6 +48,10 @@ function createGameboard(size) {
 
     // empty > miss
     if (this.coordinates[targetRow][targetCol] == "empty") {
+      if (typeof callback !== "function") {
+        throw new Error("Callback function is required");
+      }
+      callback("miss");
       this.coordinates[targetRow][targetCol] = "miss";
       console.log(coordinates);
       return true;
