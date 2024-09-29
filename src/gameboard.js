@@ -61,7 +61,8 @@ function createGameboard(size) {
         throw new Error("Callback function is required");
       }
       callback(shipName);
-      this.coordinates[targetRow][targetCol] = "hit";
+      this.coordinates[targetRow][targetCol] =
+        this.coordinates[targetRow][targetCol] + "_hit";
       console.log(coordinates);
       return true;
     }

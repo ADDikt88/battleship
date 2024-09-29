@@ -13,12 +13,12 @@ function startGame() {
 
 function initializeShips(player) {
   let ships = [];
-  let cruiser = createShip("cruiser", 2);
-  let boat = createShip("boat", 3);
-  let yacht = createShip("yacht", 4);
-  ships.push(cruiser);
+  let ark = createShip("a", 2);
+  let boat = createShip("b", 3);
+  let cruiser = createShip("c", 4);
+  ships.push(ark);
   ships.push(boat);
-  ships.push(yacht);
+  ships.push(cruiser);
 
   for (let i = 0; i < ships.length; i++) {
     //need to update ship logic

@@ -53,9 +53,22 @@ function drawGameboardState(gameboard, id) {
   for (let row = 0; row < gridSize; row++) {
     for (let col = 0; col < gridSize; col++) {
       let index = gridSize * gridSize * id + (row * gridSize + col);
-      blocks[index].textContent = gameboard.coordinates[row][col].charAt(0);
+      blocks[index].textContent = gameboard.coordinates[row][col];
+      fillColorState(blocks[index]);
     }
   }
+}
+
+function fillColorState(block) {
+  let colorStates = {
+    a: "red",
+    b: "yellow",
+    c: "green",
+    d: "purple",
+    e: "blue",
+  };
+  block.style.backgroundColor = colorStates[block.textContent.charAt(0)];
+  block.style.color = colorStates[block.textContent.charAt(0)];
 }
 
 export { mainpage };
