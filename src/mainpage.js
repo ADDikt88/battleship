@@ -159,15 +159,17 @@ function blockListener(block, row, col, state, gameboard, id, ships) {
 }
 
 function updateButtonStatus(button, state, ship, gameboard, id) {
-  button.style.fontSize = "2rem";
+  let hitMarker = document.createElement("span");
+  hitMarker.className = "x";
+  button.appendChild(hitMarker);
 
   if (state == "hit") {
-    button.textContent = "X";
-    button.style.fontWeight = "bolder";
-    button.style.color = "red";
+    hitMarker.textContent = "X";
+    hitMarker.style.fontWeight = "bolder";
+    hitMarker.style.color = "red";
   } else if (state == "miss") {
-    button.textContent = "X";
-    button.style.color = "gray";
+    hitMarker.textContent = "X";
+    hitMarker.style.color = "gray";
   }
 
   const gridSize = 8;
