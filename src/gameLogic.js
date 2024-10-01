@@ -29,4 +29,17 @@ function initializeShips(player) {
   return ships;
 }
 
-export { startGame };
+function switchTurnOrder(id) {
+  console.log("SWITCH TURN ORDER");
+  let turnOffBoardButtons = document.querySelectorAll(`.p${id + 1} > *`);
+  let turnOnBoardButtons = document.querySelectorAll(
+    `.p${((id + 1) % 2) + 1} > *`
+  );
+  console.log(turnOffBoardButtons.length);
+  for (let i = 0; i < turnOffBoardButtons.length; i++) {
+    turnOffBoardButtons[i].setAttribute("class", "player-turn-off");
+    turnOnBoardButtons[i].setAttribute("class", "player-turn-on");
+  }
+}
+
+export { startGame, switchTurnOrder };

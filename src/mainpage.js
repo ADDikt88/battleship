@@ -1,4 +1,4 @@
-import { startGame } from "./gameLogic.js";
+import { startGame, switchTurnOrder } from "./gameLogic.js";
 function mainpage() {
   renderPage();
   const newGame = startGame();
@@ -16,6 +16,9 @@ function mainpage() {
 
   drawGameboardState(p1gameboard, 0, p1ships);
   drawGameboardState(p2gameboard, 1, p2ships);
+
+  //Player 1 goes first
+  switchTurnOrder(0);
 }
 
 function renderPage() {
@@ -42,7 +45,7 @@ function drawGrid(player) {
     divRow[row].setAttribute("class", "row");
     for (let col = 0; col < gridSize; col++) {
       let divBlock = document.createElement("div");
-      divBlock.setAttribute("class", "block");
+      divBlock.setAttribute("class", `block ${player}`);
       let id = `${player}-${row}_${col}`;
       divBlock.setAttribute("id", id);
       divRow[row].appendChild(divBlock);
@@ -106,6 +109,7 @@ function blockListener(block, row, col, state, gameboard, id, ships) {
         ships.find((ship) => ship.name == value).hit();
         updateButtonStatus(button, "hit");
       }
+      switchTurnOrder(id);
     });
   });
 
@@ -123,6 +127,6 @@ function updateButtonStatus(button, state) {
     button.style.color = "gray";
   }
 
-  button.disabled = "true";
+  button.disabled = true;
 }
 export { mainpage };

@@ -91,3 +91,9 @@ footer > p {
   color: aliceblue;
   align-items: center;
 }
+
+.player-turn-off {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
