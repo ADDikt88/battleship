@@ -50,7 +50,7 @@ function initializeShips(player, id) {
 function switchTurnOrder(id) {
   console.log("SWITCH TURN ORDER");
 
-  let toggleButtons = document.querySelectorAll("button");
+  let toggleButtons = document.querySelectorAll(".blockBtn");
   for (const button of toggleButtons) {
     button.classList.toggle("not-this-turn");
   }
@@ -62,7 +62,7 @@ function switchTurnOrder(id) {
 }
 
 function computerChooses() {
-  const buttons = document.querySelectorAll("button");
+  const buttons = document.querySelectorAll(".blockBtn");
   let randomIndex = Math.floor(Math.random() * 64);
   while (true) {
     if (buttons[randomIndex].disabled == false) {

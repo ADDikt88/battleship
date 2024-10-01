@@ -1,7 +1,6 @@
 import { startGame, switchTurnOrder } from "./gameLogic.js";
 function mainpage() {
-  renderPage();
-  const newGame = startGame();
+  let newGame = startGame();
 
   let p1gameboard = newGame.Player1.gameboard;
   let p2gameboard = newGame.Player2.gameboard;
@@ -34,6 +33,18 @@ function renderPage() {
     ".player-2-gameboard-container"
   );
   player2Container.appendChild(drawGrid("p2"));
+}
+
+function clearPage() {
+  const player1Container = document.querySelector(
+    ".player-1-gameboard-container"
+  );
+  player1Container.innerHTML = "";
+
+  const player2Container = document.querySelector(
+    ".player-2-gameboard-container"
+  );
+  player2Container.innerHTML = "";
 }
 
 function drawGrid(player) {
@@ -95,6 +106,7 @@ function fillColorState(block, state) {
 
 function blockListener(block, row, col, state, gameboard, id, ships) {
   let button = document.createElement("button");
+  button.setAttribute("class", "blockBtn");
   button.style.width = "100%";
   button.style.height = "100%";
   button.style.border = "none";
@@ -104,6 +116,9 @@ function blockListener(block, row, col, state, gameboard, id, ships) {
 
   button.addEventListener("click", () => {
     console.log(`(${row},${col}) clicked`);
+
+    let randomizeButton = document.querySelector(".randomize-button");
+    randomizeButton.disabled = true;
 
     gameboard.receiveAttack(row, col, function updateShip(value) {
       if (value == "miss") {
@@ -170,6 +185,8 @@ function triggerEndGame(id) {
     alert(`You lose...`);
   }
   disableAllButtons();
+  let restartButton = document.querySelector(".restart-button");
+  restartButton.disabled = false;
 }
 
 function disableAllButtons() {
@@ -179,4 +196,4 @@ function disableAllButtons() {
   }
 }
 
-export { mainpage };
+export { mainpage, renderPage, clearPage };
