@@ -1,6 +1,6 @@
 import { startGame, switchTurnOrder } from "./gameLogic.js";
 let recentHitIndexStack = [-1];
-let viewerHack = false;
+let viewerHack = true;
 
 function mainpage() {
   let newGame = startGame();
@@ -147,11 +147,11 @@ function blockListener(block, row, col, state, gameboard, id, ships) {
           requestAnimationFrame(() => {
             setTimeout(() => {
               triggerEndGame(id);
-            }, 100);
+            }, 1);
           });
         }
       }
-      switchTurnOrder(id, recentHitIndexStack);
+      if (!gameboard.checkShipsSunk()) switchTurnOrder(id, recentHitIndexStack);
     });
   });
 
