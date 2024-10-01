@@ -54,7 +54,7 @@ function switchTurnOrder(id, recentHitIndexStack) {
   if (id == 1) {
     if (recentHitIndexStack.at(-1) == -1) computerChoosesRandom();
     else {
-      while (!computerChoosesNearbyHits(recentHitIndexStack.at(-1))) {
+      while (!computerChoosesNearbyHits(recentHitIndexStack)) {
         recentHitIndexStack.pop();
       }
     }
@@ -72,7 +72,8 @@ function computerChoosesRandom() {
   }
 }
 
-function computerChoosesNearbyHits(recentHitIndex) {
+function computerChoosesNearbyHits(recentHitIndexStack) {
+  let recentHitIndex = recentHitIndexStack.at(-1);
   const buttons = document.querySelectorAll(".blockBtn");
 
   const shuffle = (array) => {
@@ -84,6 +85,12 @@ function computerChoosesNearbyHits(recentHitIndex) {
   };
 
   let myArray = [0, 1, 2, 3];
+
+  if (recentHitIndexStack.length > 2) {
+    if (Math.abs(recentHitIndexStack.at(-2) - recentHitIndex) > 1)
+      myArray = [2, 3];
+    else myArray = [0, 1];
+  }
   const randomNearby = shuffle(myArray);
 
   for (let j = 0; j < randomNearby.length; j++) {

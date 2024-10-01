@@ -147,7 +147,7 @@ function blockListener(block, row, col, state, gameboard, id, ships) {
           requestAnimationFrame(() => {
             setTimeout(() => {
               triggerEndGame(id);
-            }, 1);
+            }, 500);
           });
         }
       }
