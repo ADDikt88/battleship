@@ -1,6 +1,6 @@
 import { startGame, switchTurnOrder } from "./gameLogic.js";
 let recentHitIndexStack = [-1];
-let viewerHack = true;
+let viewerHack = false;
 
 function mainpage() {
   let newGame = startGame();
@@ -193,10 +193,10 @@ function updateButtonStatus(button, state, ship, gameboard, id) {
 function triggerEndGame(id) {
   if (id == 1) {
     console.log(`YOU WIN!!!`);
-    alert(`YOU WIN!!!`);
+    alert(`Wow, you beat Captain Snowy in an intense sea battle!!!`);
   } else {
     console.log("You lose...");
-    alert(`You lose...`);
+    alert(`You lost to Captain Snowy? No shame in losing to the best!`);
   }
   disableAllButtons();
   let restartButton = document.querySelector(".restart-button");

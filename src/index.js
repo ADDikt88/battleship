@@ -5,6 +5,16 @@ console.log("Battleship STARTS");
 
 renderPage();
 mainpage();
+footer();
+
+function footer() {
+  const footer = document.querySelector("footer");
+  const author = document.createElement("p");
+  author.setAttribute("class", "author");
+  author.innerHTML =
+    'made by: <a href="https://github.com/ADDikt88/" target="_blank">github/ADDikt88</a>';
+  footer.appendChild(author);
+}
 
 //Allow player to randomize ships
 const randomizeButton = document.querySelector(".randomize-button");

@@ -7,14 +7,16 @@
   </head>
   <body>
     <header>
-      <h1>Battleship</h1>
+      <h1>Captain Snowy's Sea Battle</h1>
+      <h2 class = "subtitle">Can you beat <span style="text-decoration:underline; font-weight:bolder;">Captain Snowy</span> in an intense game of battleship?</h2>
+      <h3 class = "subtitle">Feel free to <span style="color: lightcoral">randomize</span> your ship placement <span style="font-style: italic;">before</span> starting the game. Start the game by clicking anywhere on the <span style="color: lightcoral">right</span> grid.</h3>
     </header>
     <div class="main-container">
       <div class="player-1-container">
-        <input type="text" value="Player 1"></input>
+        <input id="player-label" type="text" value="Player 1"></input>
       </div>
       <div class="player-2-container">
-        <p>Computer</p>
+        <p id="computer-label">Captain Snowy</p>
       </div>
       <div class="player-1-gameboard-container"></div>
       <div class="player-2-gameboard-container"></div>
@@ -27,6 +29,6 @@
         <button class = "restart-button"><h1>Restart Game</h1></button>
       </div>
     </div>
-    <footer><p>Created by ADDikt8</p></footer>
+    <footer></footer>
   </body>
 </html>
