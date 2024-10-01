@@ -44,7 +44,7 @@ function createGameboard(size) {
     if (this.coordinates[targetRow][targetCol] == "miss") return false;
 
     // already hit
-    if (this.coordinates[targetRow][targetCol] == "hit") return false;
+    if (this.coordinates[targetRow][targetCol].includes("hit")) return false;
 
     // empty > miss
     if (this.coordinates[targetRow][targetCol] == "empty") {
@@ -77,7 +77,7 @@ function createGameboard(size) {
     if (shipArray == null || shipArray.length == 0) return false;
 
     for (let i = 0; i < this.shipArray.length; i++) {
-      if (!shipArray[i].isSunk()) return false;
+      if (!shipArray[i].isSunk) return false;
     }
     console.log(shipArray);
     return true;

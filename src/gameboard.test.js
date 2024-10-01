@@ -32,27 +32,29 @@ test("place small ship (3) on board but goes OUT OF BOUNDS", () => {
 
 test("place small ship (3) on board and miss attack", () => {
   let gameboard = createGameboard(5);
-  let boat = createShip("boat", 3);
+  let boat = createShip("b", 3);
   gameboard.placeShip(boat, 2, 2);
-  gameboard.receiveAttack(0, 0);
+  gameboard.receiveAttack(0, 0, function updateShip(value) {
+    console.log(value);
+  });
   expect(gameboard.coordinates[0][0]).toBe("miss");
 });
 
 test("place small ship (3) on board and hits attack", () => {
   let gameboard = createGameboard(5);
-  let boat = createShip("boat", 3);
+  let boat = createShip("b", 3);
   gameboard.placeShip(boat, 2, 2);
   gameboard.receiveAttack(2, 2, function updateShip(value) {
     console.log(value);
   });
 
-  expect(gameboard.coordinates[2][2]).toBe("hit");
+  expect(gameboard.coordinates[2][2]).toBe("b_hit");
 });
 
 test("place small ship (3) on board and hits attack", () => {
   let gameboard = createGameboard(5);
   let ships = [];
-  let boat = createShip("boat", 3);
+  let boat = createShip("b", 3);
   ships.push(boat);
   gameboard.placeShip(boat, 2, 2);
   gameboard.receiveAttack(2, 2, function updateShip(value) {
@@ -65,7 +67,7 @@ test("place small ship (3) on board and hits attack", () => {
 test("place small ship (3) on board and hits attack 3x", () => {
   let gameboard = createGameboard(5);
   let ships = [];
-  let boat = createShip("boat", 3);
+  let boat = createShip("b", 3);
   ships.push(boat);
   gameboard.placeShip(boat, 2, 2);
   gameboard.receiveAttack(2, 2, function updateShip(value) {
@@ -76,18 +78,20 @@ test("place small ship (3) on board and hits attack 3x", () => {
   gameboard.receiveAttack(2, 3, function updateShip(value) {
     console.log(value);
     ships.find((ship) => ship.name == value).hit();
+    //expect(gameboard.checkShipsSunk()).toBeFalsy();
     //expect(boat.damage).toBe(2);
+    //expect(boat.isSunk()).toBeFalsy();
   });
+  // gameboard.receiveAttack(2, 4, function updateShip(value) {
+  //   console.log(value);
+  //   ships.find((ship) => ship.name == value).hit();
+  //   //expect(boat.damage).toBe(3);
+  // });
   gameboard.receiveAttack(2, 4, function updateShip(value) {
     console.log(value);
     ships.find((ship) => ship.name == value).hit();
-    //expect(boat.damage).toBe(3);
-  });
-  gameboard.receiveAttack(2, 4, function updateShip(value) {
-    console.log(value);
-    ships.find((ship) => ship.name == value).hit();
-    //expect(boat.isSunk).toBeTruthy();
-    expect(gameboard.checkShipsSunk().toBeTruty());
+    //expect(boat.isSunk()).toBeTruthy();
+    expect(gameboard.checkShipsSunk()).toBeTruthy();
   });
 });
 

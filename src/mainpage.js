@@ -95,19 +95,21 @@ function blockListener(block, row, col, state, gameboard, id, ships) {
   button.style.width = "100%";
   button.style.height = "100%";
   button.style.border = "none";
+  button.style.backgroundColor = "blue";
 
-  fillColorState(button, state);
+  if (id == 0) fillColorState(button, state);
 
   button.addEventListener("click", () => {
     console.log(`(${row},${col}) clicked`);
 
     gameboard.receiveAttack(row, col, function updateShip(value) {
       if (value == "miss") {
-        updateButtonStatus(button, "miss");
+        updateButtonStatus(button, "miss", null, null, null);
       } else {
         console.log("SHIP NAME: " + value);
-        ships.find((ship) => ship.name == value).hit();
-        updateButtonStatus(button, "hit");
+        let targetShip = ships.find((ship) => ship.name == value);
+        targetShip.hit();
+        updateButtonStatus(button, "hit", targetShip, gameboard, id);
       }
       switchTurnOrder(id);
     });
@@ -116,7 +118,7 @@ function blockListener(block, row, col, state, gameboard, id, ships) {
   block.appendChild(button);
 }
 
-function updateButtonStatus(button, state) {
+function updateButtonStatus(button, state, ship, gameboard, id) {
   button.style.fontSize = "2rem";
 
   if (state == "hit") {
@@ -125,6 +127,23 @@ function updateButtonStatus(button, state) {
   } else if (state == "miss") {
     button.textContent = "X";
     button.style.color = "gray";
+  }
+
+  const gridSize = 8;
+  //reveal ship if sunk
+  if (ship !== null) {
+    if (ship.isSunk()) {
+      console.log(`${ship.name} SUNK!!`);
+      let targetButtons = document.querySelectorAll(`.p${id + 1} > *`);
+      for (let row = 0; row < gridSize; row++) {
+        for (let col = 0; col < gridSize; col++) {
+          if (gameboard.coordinates[row][col].charAt(0) == ship.name) {
+            let index = row * gridSize + col;
+            fillColorState(targetButtons[index], ship.name);
+          }
+        }
+      }
+    }
   }
 
   button.disabled = true;

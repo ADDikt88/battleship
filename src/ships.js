@@ -10,7 +10,7 @@ function createShip(
   }
 
   function isSunk() {
-    if (damage == length) return true;
+    if (this.damage == this.length) return true;
 
     return false;
   }
