@@ -1,4 +1,7 @@
 import { startGame, switchTurnOrder } from "./gameLogic.js";
+let recentHitIndexStack = [-1];
+let viewerHack = false;
+
 function mainpage() {
   let newGame = startGame();
 
@@ -96,10 +99,10 @@ function drawGameboardState(gameboard, id, ships) {
 function fillColorState(block, state) {
   let colorStates = {
     a: "purple",
-    b: "yellow",
+    b: "violet",
     c: "green",
     d: "orange",
-    e: "blue",
+    e: "darkBlue",
   };
   block.style.backgroundColor = colorStates[state.charAt(0)];
 }
@@ -110,9 +113,10 @@ function blockListener(block, row, col, state, gameboard, id, ships) {
   button.style.width = "100%";
   button.style.height = "100%";
   button.style.border = "none";
-  button.style.backgroundColor = "blue";
+  button.style.backgroundColor = "darkBlue";
 
   if (id == 0) fillColorState(button, state);
+  if (viewerHack) fillColorState(button, state);
 
   button.addEventListener("click", () => {
     console.log(`(${row},${col}) clicked`);
@@ -129,6 +133,16 @@ function blockListener(block, row, col, state, gameboard, id, ships) {
         targetShip.hit();
         updateButtonStatus(button, "hit", targetShip, gameboard, id);
 
+        if (id == 0) {
+          let recentHitIndex = row * 8 + col;
+          if (targetShip.isSunk()) {
+            recentHitIndexStack = [-1];
+          } else {
+            recentHitIndexStack.push(recentHitIndex);
+          }
+          console.log("STACK: " + recentHitIndexStack);
+        }
+
         if (gameboard.checkShipsSunk()) {
           requestAnimationFrame(() => {
             setTimeout(() => {
@@ -137,8 +151,7 @@ function blockListener(block, row, col, state, gameboard, id, ships) {
           });
         }
       }
-
-      switchTurnOrder(id);
+      switchTurnOrder(id, recentHitIndexStack);
     });
   });
 
@@ -150,6 +163,7 @@ function updateButtonStatus(button, state, ship, gameboard, id) {
 
   if (state == "hit") {
     button.textContent = "X";
+    button.style.fontWeight = "bolder";
     button.style.color = "red";
   } else if (state == "miss") {
     button.textContent = "X";

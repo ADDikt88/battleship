@@ -97,3 +97,7 @@ footer > p {
   pointer-events: none;
   cursor: not-allowed;
 }
+
+.p2 > button:hover:enabled {
+  filter: brightness(200%);
+}
