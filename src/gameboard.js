@@ -12,10 +12,14 @@ function createGameboard(size) {
 
     if (this.coordinates[startRow][startCol] !== "empty") return false;
 
+    if (shipIsAround(this.coordinates, startRow, startCol)) return false;
+
     if (ship.orientation == "vertical") {
       for (let i = 1; i < ship.length; i++) {
         if (startRow + i > this.size - 1) return false;
         if (this.coordinates[startRow + i][startCol] !== "empty") return false;
+        // if (shipIsAround(this.coordinates, startRow + i, startCol))
+        //   return false;
       }
 
       for (let i = 0; i < ship.length; i++) {
@@ -25,6 +29,8 @@ function createGameboard(size) {
       for (let i = 1; i < ship.length; i++) {
         if (startCol + i > this.size - 1) return false;
         if (this.coordinates[startRow][startCol + i] !== "empty") return false;
+        //if (shipIsAround(this.coordinates, startRow, startCol + i))
+        //  return false;
       }
 
       for (let i = 0; i < ship.length; i++) {
@@ -103,4 +109,19 @@ function initializeBoard(coordinates, size) {
   return coordinates;
 }
 
+function shipIsAround(coordinates, startRow, startCol) {
+  if (startRow > 0)
+    if (coordinates[startRow - 1][startCol] !== "empty") return true;
+
+  if (startRow < 7)
+    if (coordinates[startRow + 1][startCol] !== "empty") return true;
+
+  if (startCol > 0)
+    if (coordinates[startRow][startCol - 1] !== "empty") return true;
+
+  if (startCol < 7)
+    if (coordinates[startRow][startCol + 1] !== "empty") return true;
+
+  return false;
+}
 export { createGameboard };
