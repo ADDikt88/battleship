@@ -92,8 +92,8 @@ footer > p {
   align-items: center;
 }
 
-.player-turn-off {
-  opacity: 0.5;
+.not-this-turn {
+  /* opacity: 0.5; */
   pointer-events: none;
   cursor: not-allowed;
 }

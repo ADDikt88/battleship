@@ -18,7 +18,10 @@ function mainpage() {
   drawGameboardState(p2gameboard, 1, p2ships);
 
   //Player 1 goes first
-  switchTurnOrder(0);
+  let player1Buttons = document.querySelectorAll(".p1 > *");
+  for (const button of player1Buttons) {
+    button.classList.add("not-this-turn");
+  }
 }
 
 function renderPage() {

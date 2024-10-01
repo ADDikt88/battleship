@@ -31,14 +31,26 @@ function initializeShips(player) {
 
 function switchTurnOrder(id) {
   console.log("SWITCH TURN ORDER");
-  let turnOffBoardButtons = document.querySelectorAll(`.p${id + 1} > *`);
-  let turnOnBoardButtons = document.querySelectorAll(
-    `.p${((id + 1) % 2) + 1} > *`
-  );
-  console.log(turnOffBoardButtons.length);
-  for (let i = 0; i < turnOffBoardButtons.length; i++) {
-    turnOffBoardButtons[i].setAttribute("class", "player-turn-off");
-    turnOnBoardButtons[i].setAttribute("class", "player-turn-on");
+
+  let toggleButtons = document.querySelectorAll("button");
+  for (const button of toggleButtons) {
+    button.classList.toggle("not-this-turn");
+  }
+
+  //if the board last clicked on was the computer (aka player's turn), let computer choose the next square
+  if (id == 1) {
+    computerChooses();
+  }
+}
+
+function computerChooses() {
+  const buttons = document.querySelectorAll("button");
+  let randomIndex = Math.floor(Math.random() * 64);
+  while (true) {
+    if (buttons[randomIndex].disabled == false) {
+      buttons[randomIndex].click();
+      return;
+    } else randomIndex = Math.floor(Math.random() * 64);
   }
 }
 
