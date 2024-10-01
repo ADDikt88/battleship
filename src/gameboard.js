@@ -77,7 +77,7 @@ function createGameboard(size) {
     if (shipArray == null || shipArray.length == 0) return false;
 
     for (let i = 0; i < this.shipArray.length; i++) {
-      if (!shipArray[i].isSunk) return false;
+      if (!shipArray[i].isSunk()) return false;
     }
     console.log(shipArray);
     return true;

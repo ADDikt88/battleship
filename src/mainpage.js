@@ -113,7 +113,16 @@ function blockListener(block, row, col, state, gameboard, id, ships) {
         let targetShip = ships.find((ship) => ship.name == value);
         targetShip.hit();
         updateButtonStatus(button, "hit", targetShip, gameboard, id);
+
+        if (gameboard.checkShipsSunk()) {
+          requestAnimationFrame(() => {
+            setTimeout(() => {
+              triggerEndGame(id);
+            }, 100);
+          });
+        }
       }
+
       switchTurnOrder(id);
     });
   });
@@ -151,4 +160,23 @@ function updateButtonStatus(button, state, ship, gameboard, id) {
 
   button.disabled = true;
 }
+
+function triggerEndGame(id) {
+  if (id == 1) {
+    console.log(`YOU WIN!!!`);
+    alert(`YOU WIN!!!`);
+  } else {
+    console.log("You lose...");
+    alert(`You lose...`);
+  }
+  disableAllButtons();
+}
+
+function disableAllButtons() {
+  let allButtons = document.querySelectorAll("button");
+  for (const button of allButtons) {
+    button.disabled = true;
+  }
+}
+
 export { mainpage };
